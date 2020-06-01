@@ -4,10 +4,17 @@ import requests
 def get_repo_list():
 
     # change these things for your org
-    org_name = 'datamade'
-    pages_to_fetch = 2 # number of repos you have, divided by 100. kinda hack-y!
+    org_name = 'agaridata'
+    pages_to_fetch = 3 # number of repos you have, divided by 100. kinda hack-y!
 
-    api_url = 'https://api.github.com/orgs/%s/repos?per_page=100' % org_name
+    print("Input your username: ")
+    username = input()
+    print("Input your PAT: ")
+    token = input()
+    print("Repo Type: ")
+    repo_type = input()
+
+    api_url = 'https://api.github.com/orgs/%s/repos?type=%s&per_page=100' % (org_name, repo_type)
     repos_list = []
 
     fields = ['name',
@@ -22,7 +29,7 @@ def get_repo_list():
 
     for page in range(1,(pages_to_fetch + 1)):
         print("Page %s" % page)
-        repos = requests.get(api_url + "&page=" + str(page))
+        repos = requests.get(api_url + "&page=" + str(page), auth=(username,token))
         if repos.status_code is 200:
             for r in repos.json():
                 repos_list.append([r[key] for key in fields])
