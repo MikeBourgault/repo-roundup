@@ -13,8 +13,11 @@ def get_repo_list():
     token = input()
     print("Repo Type: ")
     repo_type = input()
-
-    api_url = 'https://api.github.com/orgs/%s/repos?type=%s&per_page=100' % (org_name, repo_type)
+    
+    if repo_type is not None:
+    	api_url = 'https://api.github.com/orgs/%s/repos?type=%s&per_page=100' % (org_name, repo_type)
+    else:
+	    api_url = 'https://api.github.com/orgs/%s/repos?per_page=100' % org_name
     repos_list = []
 
     fields = ['name',
